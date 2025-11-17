@@ -1,3 +1,13 @@
+# [1.0.0-rc.3](https://github.com/armandwipangestu/gis-api/compare/v1.0.0-rc.2...v1.0.0-rc.3) (2025-11-17)
+
+
+### Features
+
+* **database:** add auto migration ([8d19b68](https://github.com/armandwipangestu/gis-api/commit/8d19b684aea72ee30e8f6170d3fc753ccd4acc61))
+* **database:** add database connection ([3691ca9](https://github.com/armandwipangestu/gis-api/commit/3691ca91b98c1295f5c8350c0ac0907b91b78640))
+* **database:** add models configuration ([3b178d2](https://github.com/armandwipangestu/gis-api/commit/3b178d2568927008ce320accacd4da7295c9b1c1))
+* **database:** add seeder configuration ([111b853](https://github.com/armandwipangestu/gis-api/commit/111b853706497fc52a76efaeb66e105dd6bf4a37))
+
 # [1.0.0-rc.2](https://github.com/armandwipangestu/gis-api/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2025-11-17)
 
 
