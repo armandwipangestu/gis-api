@@ -1,10 +1,14 @@
 package main
 
 import (
+	"armandwipangestu/gis-api/config"
+
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	config.LoadEnv()
+
 	// Initialize Gin
 	router := gin.Default()
 
@@ -17,5 +21,5 @@ func main() {
 	})
 
 	// Serve app with port 3000
-	router.Run(":3000")
+	router.Run(":" + config.GetEnv("APP_PORT", "3000"))
 }
