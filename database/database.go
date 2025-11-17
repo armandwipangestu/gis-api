@@ -2,6 +2,7 @@ package database
 
 import (
 	"armandwipangestu/gis-api/config"
+	"armandwipangestu/gis-api/models"
 	"fmt"
 	"log"
 
@@ -31,4 +32,19 @@ func InitDB() {
 	}
 
 	fmt.Println("Database connected successfully!")
+
+	// Run auto migrate models
+	err = DB.AutoMigrate(
+		&models.User{},
+		&models.Role{},
+		&models.Permission{},
+		&models.Category{},
+		&models.Map{},
+		&models.Setting{},
+	)
+	if err != nil {
+		log.Fatal("Failed to migrate database:", err)
+	}
+
+	fmt.Println("Database migrated successfully!")
 }
