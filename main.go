@@ -2,12 +2,21 @@ package main
 
 import (
 	"armandwipangestu/gis-api/config"
+	"armandwipangestu/gis-api/database"
+	"armandwipangestu/gis-api/database/seeders"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	// Load environment variables
 	config.LoadEnv()
+
+	// Initialize database (connection, migration stuff)
+	database.InitDB()
+
+	// Running the seeders
+	seeders.Seed()
 
 	// Initialize Gin
 	router := gin.Default()
