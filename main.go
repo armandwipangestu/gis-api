@@ -2,12 +2,15 @@ package main
 
 import (
 	"armandwipangestu/gis-api/config"
+	"armandwipangestu/gis-api/database"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	config.LoadEnv()
+
+	database.InitDB()
 
 	// Initialize Gin
 	router := gin.Default()
