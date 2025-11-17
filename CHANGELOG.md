@@ -1,3 +1,11 @@
+# [1.0.0-rc.2](https://github.com/armandwipangestu/gis-api/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2025-11-17)
+
+
+### Features
+
+* add air for live/hot reload ([02a7d42](https://github.com/armandwipangestu/gis-api/commit/02a7d42324b69d3617c213914b35f52027d8d1dd))
+* **env:** add godotenv to load environment configuration ([54edf68](https://github.com/armandwipangestu/gis-api/commit/54edf68dab581c457d794d55c72ee11d4bffdb2c))
+
 # 1.0.0-rc.1 (2025-11-17)
 
 
