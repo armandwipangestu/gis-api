@@ -200,3 +200,19 @@ func DeletePermission(c *gin.Context) {
 		Message: "Permission deleted successfully",
 	})
 }
+
+// Get all permissions
+func FindAllPermissions(c *gin.Context) {
+	// Initialize slice for accomodate data permissions
+	var permissions []models.Permission
+
+	// Get data permissions from database
+	database.DB.Find(&permissions)
+
+	// Send response success with data user
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Lists Data Permissions",
+		Data: permissions,
+	})
+}
