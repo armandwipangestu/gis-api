@@ -4,8 +4,7 @@ import (
 	"armandwipangestu/gis-api/config"
 	"armandwipangestu/gis-api/database"
 	"armandwipangestu/gis-api/database/seeders"
-
-	"github.com/gin-gonic/gin"
+	"armandwipangestu/gis-api/routes"
 )
 
 func main() {
@@ -18,17 +17,9 @@ func main() {
 	// Running the seeders
 	seeders.Seed()
 
-	// Initialize Gin
-	router := gin.Default()
+	// Setup router
+	r := routes.SetupRouter()
 
-	// Create route with method GET on root or `/` endpoint
-	router.GET("/", func(c *gin.Context) {
-		// Return response JSON
-		c.JSON(200, gin.H{
-			"message": "Hello World!",
-		})
-	})
-
-	// Serve app with port 3000
-	router.Run(":" + config.GetEnv("APP_PORT", "3000"))
+	// Serve app
+	r.Run(":" + config.GetEnv("APP_PORT", "3000"))
 }
