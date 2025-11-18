@@ -105,3 +105,49 @@ func FindPermissionById(c *gin.Context) {
 		Data:	permission,
 	})
 }
+
+// Update permission
+func UpdatePermission(c *gin.Context) {
+	id := c.Param("id")
+	var permission models.Permission
+
+	if err := database.DB.First(&permission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Permission not found",
+			Errors: helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	var req structs.PermissionUpdateRequest
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Errors",
+			Errors: helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	permission.Name = req.Name
+
+	if err := database.DB.Save(&permission).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to update permission",
+			Errors: helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Permission updated successfully",
+		Data: permission,
+	})
+}
