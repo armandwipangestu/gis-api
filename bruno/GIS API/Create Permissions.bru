@@ -1,0 +1,26 @@
+meta {
+  name: Create Permissions
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://{{host}}:{{port}}/api/admin/permissions
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+body:json {
+  {
+    "name": "events-index"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
