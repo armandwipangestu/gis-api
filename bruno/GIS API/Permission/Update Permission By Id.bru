@@ -1,0 +1,26 @@
+meta {
+  name: Update Permission By Id
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://{{host}}:{{port}}/api/admin/permissions/35
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+body:json {
+  {
+    "name": "test-edit-index"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
