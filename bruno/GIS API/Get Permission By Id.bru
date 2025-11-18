@@ -1,0 +1,20 @@
+meta {
+  name: Get Permission By Id
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://{{host}}:{{port}}/api/admin/permissions/1
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

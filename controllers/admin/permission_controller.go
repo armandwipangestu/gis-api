@@ -78,3 +78,30 @@ func CreatePermission(c *gin.Context) {
 		Data: permission,
 	})
 }
+
+
+// Get 1 permission based on id
+func FindPermissionById(c *gin.Context) {
+	// Get id from parameter
+	id := c.Param("id")
+
+	// Variable permission
+	var permission models.Permission
+
+	// Get permission based on id
+	if err := database.DB.First(&permission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Permission not found",
+			Errors: helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Permission Found",
+		Data:	permission,
+	})
+}

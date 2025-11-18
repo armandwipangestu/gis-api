@@ -28,6 +28,7 @@ func SetupRouter() *gin.Engine {
 		// Permission routes
 		protected.GET("/permissions", middlewares.Permission("permissions-index"), adminController.FindPermissions)
 		protected.POST("/permissions", middlewares.Permission("permissions-create"), adminController.CreatePermission)
+		protected.GET("/permissions/:id", middlewares.Permission("permissions-show"), adminController.FindPermissionById)
 	}
 
 	return router
