@@ -151,3 +151,52 @@ func UpdatePermission(c *gin.Context) {
 		Data: permission,
 	})
 }
+
+// Delete permission
+func DeletePermission(c *gin.Context) {
+	// Get id from parameter
+	id := c.Param("id")
+
+	// Variable permission
+	var permission models.Permission
+
+	// Check if permission exists or not
+	if err := database.DB.First(&permission, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Permission not found",
+			Errors:	helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Delete all relationship role<->permission at pivot table
+	if err := database.DB.Table("role_permissions").
+			Where("permission_id = ?", id).
+			Delete(nil).Error; err != nil {
+				c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+					Success: false,
+					Message: "Failed to detach permission from roles",
+					Errors: helpers.TranslateErrorMessage(err),
+				})
+
+				return
+			}
+
+	// Delete permission
+	if err := database.DB.Delete(&permission).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to delete permission",
+			Errors: helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Permission deleted successfully",
+	})
+}

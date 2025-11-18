@@ -30,6 +30,7 @@ func SetupRouter() *gin.Engine {
 		protected.POST("/permissions", middlewares.Permission("permissions-create"), adminController.CreatePermission)
 		protected.GET("/permissions/:id", middlewares.Permission("permissions-show"), adminController.FindPermissionById)
 		protected.PUT("/permissions/:id", middlewares.Permission("permissions-update"), adminController.UpdatePermission)
+		protected.DELETE("/permissions/:id", middlewares.Permission("permissions-delete"), adminController.DeletePermission)
 	}
 
 	return router
