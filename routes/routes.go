@@ -24,6 +24,9 @@ func SetupRouter() *gin.Engine {
 	{
 		// Dashboard routes
 		protected.GET("/dashboard", middlewares.Permission("dashboard-index"), adminController.Dashboard)
+
+		// Permission routes
+		protected.GET("/permissions", middlewares.Permission("permissions-index"), adminController.FindPermissions)
 	}
 
 	return router
