@@ -66,3 +66,41 @@ func FindRoles(c *gin.Context) {
 	helpers.PaginateResponse(c, rolesResponse, total, page, limit, baseUrl, search, "List Data Roles")
 }
 
+func CreateRole(c *gin.Context) {
+	var req structs.RoleCreateRequest
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Error",
+			Errors: helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	var permissions []models.Permission
+	if len(req.PermissionIDs) > 0 {
+		database.DB.Where("id IN ?", req.PermissionIDs).Find(&permissions)
+	}
+
+	role := models.Role{
+		Name:			req.Name,
+		Permissions:	permissions,
+	}
+
+	if err := database.DB.Create(&role).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to create role",
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusCreated, structs.SuccessResponse{
+		Success: true,
+		Message: "Role created successfully",
+		Data: role,
+	})
+}
