@@ -36,6 +36,7 @@ func SetupRouter() *gin.Engine {
 		// Role routes
 		protected.GET("/roles", middlewares.Permission("roles-index"), adminController.FindRoles)
 		protected.POST("/roles", middlewares.Permission("roles-create"), adminController.CreateRole)
+		protected.GET("/roles/:id", middlewares.Permission("roles-show"), adminController.FindByRoleId)
 	}
 
 	return router

@@ -104,3 +104,49 @@ func CreateRole(c *gin.Context) {
 		Data: role,
 	})
 }
+
+func FindByRoleId(c *gin.Context) {
+	// Get parameter ID from URL
+	id := c.Param("id")
+
+	// Initialize variable
+	var role models.Role
+
+	// Get data role with relationship permissions
+	if err := database.DB.Preload("Permissions").First(&role, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Role not found",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+		
+		return
+	}
+
+	// Mapping relationship permissions to response structure
+	permissionResponses := []structs.PermissionResponse{}
+	for _, permission := range role.Permissions{
+		permissionResponses = append(permissionResponses, structs.PermissionResponse{
+			Id:				permission.Id,
+			Name:			permission.Name,
+			CreatedAt:		permission.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: 		permission.UpdatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+
+	// Prepare end response
+	roleResponse := structs.RoleResponse{
+		Id:				role.Id,
+		Name:			role.Name,
+		Permissions:	permissionResponses,
+		CreatedAt: 		role.CreatedAt.Format("2006-01-02 15:04:05"),
+		UpdatedAt:		role.UpdatedAt.Format("2006-01-02 15:04:05"),
+	}
+
+	// Send response as JSON
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success:	true,
+		Message:	"Role found",
+		Data:		roleResponse,
+	})
+}
