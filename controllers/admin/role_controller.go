@@ -150,3 +150,56 @@ func FindByRoleId(c *gin.Context) {
 		Data:		roleResponse,
 	})
 }
+
+func UpdateRole(c *gin.Context) {
+	// Get ID from parameter
+	id := c.Param("id")
+
+	// Initialize variable
+	var role models.Role
+
+	if err := database.DB.First(&role, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Role not found",
+			Errors: helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	var req structs.RoleUpdateRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Error",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	role.Name = req.Name
+
+	var permission []models.Permission
+	if len(req.PermissionIDs) > 0 {
+		database.DB.Where("id IN ?", req.PermissionIDs).Find(&permission)
+	}
+	database.DB.Model(&role).Association("Permissions").Replace(&permission)
+
+	if err := database.DB.Save(&role).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to update role",
+			Errors: helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Role updated successfully",
+		Data:	 role,
+	})
+}
