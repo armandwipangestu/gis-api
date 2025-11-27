@@ -1,11 +1,11 @@
 meta {
-  name: Get Categories
+  name: Get Categories By Id
   type: http
-  seq: 1
+  seq: 3
 }
 
 get {
-  url: http://{{host}}:{{port}}/api/admin/categories
+  url: http://{{host}}:{{port}}/api/admin/categories/1
   body: none
   auth: inherit
 }

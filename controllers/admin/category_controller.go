@@ -124,3 +124,30 @@ func CreateCategory(c *gin.Context) {
 		Data:	 category,
 	})
 }
+
+// Get 1 category based on id
+func FindCategoryById(c *gin.Context) {
+	// Get parameter id
+	id := c.Param("id")
+
+	// Initialize variable
+	var category models.Category
+
+	// Find category based on id
+	if err := database.DB.First(&category, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Category not found",
+			Errors:  helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Send data category
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Category found",
+		Data:	 category,
+	})
+}
