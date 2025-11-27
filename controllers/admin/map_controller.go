@@ -41,3 +41,94 @@ func FindMaps(c *gin.Context) {
 	// Send response with structure pagination
 	helpers.PaginateResponse(c, maps, total, page, limit, baseUrl, search, "List Data Maps")
 }
+
+// Create new map
+func CreateMap(c *gin.Context) {
+	// Initialize variable
+	var req structs.MapCreateRequest
+
+	// Input validation
+	if err := c.ShouldBind(&req); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Errors",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Get file image from form
+	file, err := c.FormFile("image")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Errors",
+			Errors:  map[string]string{"image": "Image is required"},
+		})
+
+		return
+	}
+
+	// Upload file using helper
+	uploadResult := helpers.UploadFile(c, helpers.UploadConfig{
+		File:			file,
+		AllowedTypes: 	[]string{".jpg", ".jpeg", ".png", ".gif"},
+		MaxSize:		10 << 20, // Maximum file upload is 10MB
+		DestinationDir: "public/uploads/maps",
+	})
+	if uploadResult.Response != nil {
+		c.JSON(http.StatusBadRequest, uploadResult.Response)
+
+		return
+	}
+
+	// Create slug based on name
+	slug := helpers.Slugify(req.Name)
+
+	// Check if slug already used
+	var existing models.Map
+	if err := database.DB.Where("slug = ?", slug).First(&existing).Error; err == nil {
+		c.JSON(http.StatusUnprocessableEntity, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Errors",
+			Errors:  map[string]string{
+				"slug": "Slug already exists",
+			},
+		})
+
+		return
+	}
+
+	// Create object map (based on field model)
+	mp := models.Map{
+		Image:			uploadResult.FileName,
+		Name:			req.Name,
+		Slug:			slug,
+		Description: 	req.Description,
+		Address: 		req.Address,
+		Latitude: 		req.Latitude,
+		Longitude: 		req.Longitude,
+		Geometry: 		req.Geometry,
+		Status: 		req.Status, // make default DB if empty
+		CategoryID: 	req.CategoryID,
+	}
+
+	// Save map
+	if err := database.DB.Create(&mp).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to create map",
+			Errors:  helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Send response success
+	c.JSON(http.StatusCreated, structs.SuccessResponse{
+		Success: true,
+		Message: "Map created successfully",
+		Data: 	 mp,
+	})
+}
