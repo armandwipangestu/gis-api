@@ -43,7 +43,7 @@ type MapCreateRequest struct {
 	Longitude			string				`form:"longitude" json:"longitude"`
 	Geometry			string				`form:"geometry" json:"geometry" binding:"omitempty"` // JSON string (GeoJSON / WKT which is serialized)
 	Status				string				`form:"status" json:"status" binding:"omitempty,oneof=active inactive"` // default DB 'active' if empty
-	CategoryID			string				`form:"category_id" json:"category_id" binding:"required"`
+	CategoryID			uint				`form:"category_id" json:"category_id" binding:"required"`
 }
 
 type MapUpdateRequest struct {

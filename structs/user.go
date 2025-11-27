@@ -33,7 +33,7 @@ type UserUpdateRequest struct {
 	Username		string				`json:"username" binding:"required" gorm:"unique;not null"`
 	Email			string				`json:"email" binding:"required" gorm:"unique;not null"`
 	Password		string				`json:"password,omitempty"`
-	RoleIDs			string				`json:"role_ids"` // IDs of role that assigned to the user
+	RoleIDs			[]uint				`json:"role_ids"` // IDs of role that assigned to the user
 }
 
 // This struct is used when user processing to login

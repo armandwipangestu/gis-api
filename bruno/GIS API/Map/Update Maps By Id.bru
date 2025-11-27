@@ -1,0 +1,32 @@
+meta {
+  name: Update Maps By Id
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://{{host}}:{{port}}/api/admin/maps/3
+  body: multipartForm
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+body:multipart-form {
+  image: @file(/media/devnull/DATA WINDOWS/Pictures/Thumbnail/WordPress/Demo Platform LMS “Skiloka” dengan Integrasi Payment Gateway Midtrans.png) @contentType(File)
+  name: SDN 1 Desa Bandung - Edit @contentType(Text)
+  description: SDN 1 Desa Bandung @contentType(Text)
+  address: Randulawangkrajan, Bandung, Kec. Diwek, Kabupaten Jombang, Jawa Timur 61471, Indonesia @contentType(Text)
+  latitude: -7.591670 @contentType(Text)
+  longitude: 112.258330 @contentType(Text)
+  geometry: {"type":"Point","coordinate":[112.25833,-7.59167]} @contentType(Text)
+  status: active @contentType(Text)
+  category_id: 6 @contentType(Text)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

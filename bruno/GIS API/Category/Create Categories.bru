@@ -1,0 +1,31 @@
+meta {
+  name: Create Categories
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://{{host}}:{{port}}/api/admin/categories
+  body: multipartForm
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+body:multipart-form {
+  image: @file(/media/devnull/DATA WINDOWS/Pictures/Thumbnail/WordPress/Demo Platform LMS “Skiloka” dengan Integrasi Payment Gateway Midtrans.png) @contentType(File)
+  name: Kesehatan @contentType(Text)
+  color: #000000 @contentType(Text)
+  description: Kesehatan @contentType(Text)
+}
+
+body:file {
+  file: @file()
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

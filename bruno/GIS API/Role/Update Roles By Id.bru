@@ -1,0 +1,27 @@
+meta {
+  name: Update Roles By Id
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://{{host}}:{{port}}/api/admin/roles/3
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+body:json {
+  {
+    "name": "editor - updated",
+    "permission_ids": [21, 22, 23]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

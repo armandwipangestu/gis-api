@@ -1,0 +1,31 @@
+meta {
+  name: Update Categories By Id
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://{{host}}:{{port}}/api/admin/categories/4
+  body: multipartForm
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+body:multipart-form {
+  image: @file(/media/devnull/DATA WINDOWS/Pictures/Thumbnail/WordPress/Demo Platform LMS “Skiloka” dengan Integrasi Payment Gateway Midtrans.png) @contentType(File)
+  name: Pendidikan - Edit @contentType(Text)
+  color: #000000 @contentType(Text)
+  description: Pendidikan @contentType(Text)
+}
+
+body:file {
+  file: @file()
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

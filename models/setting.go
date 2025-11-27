@@ -12,6 +12,6 @@ type Setting struct {
 	MapCenterLng		string		`json:"map_center_lang" gorm:"type:double"`
 	MapZoom				int			`json:"map_zoom"`
 	VillageBoundary		string		`json:"village_boundary" gorm:"type:json"`
-	CreateadAt			time.Time	`json:"created_at"`
+	CreatedAt			time.Time	`json:"created_at"`
 	UpdatedAt			time.Time	`json:"updated_at"`
 }
