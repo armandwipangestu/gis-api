@@ -132,3 +132,42 @@ func CreateMap(c *gin.Context) {
 		Data: 	 mp,
 	})
 }
+
+// Get one map based on id
+func FindMapById(c *gin.Context) {
+	// Get parameter id
+	id := c.Param("id")
+
+	// Initialize variable
+	var mp models.Map
+
+	// Find map based on id
+	if err := database.DB.First(&mp, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Map not found",
+			Errors:  helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Send data map
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Map Found",
+		Data: 	 structs.PublicMap{
+			Id: 			mp.Id,
+			Image:			mp.Image,
+			Name:			mp.Name,
+			Slug:			mp.Slug,
+			Description:	mp.Description,
+			Address:		mp.Address,
+			Latitude:		mp.Latitude,
+			Longitude:		mp.Longitude,
+			Geometry:		mp.Geometry,
+			Status:			mp.Status,
+			CategoryID:		mp.CategoryID,
+		},
+	})
+}
