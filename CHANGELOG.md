@@ -1,3 +1,10 @@
+# [1.1.0-rc.2](https://github.com/armandwipangestu/gis-api/compare/v1.1.0-rc.1...v1.1.0-rc.2) (2025-11-27)
+
+
+### Bug Fixes
+
+* environment example ([62aea32](https://github.com/armandwipangestu/gis-api/commit/62aea32de0ddbeb61658d0929043bfdb75f82266))
+
 # [1.1.0-rc.1](https://github.com/armandwipangestu/gis-api/compare/v1.0.0...v1.1.0-rc.1) (2025-11-27)
 
 
