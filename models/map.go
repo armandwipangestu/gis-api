@@ -17,6 +17,6 @@ type Map struct {
 	Status			string			`json:"status" gorm:"type:enum('active', 'inactive');default:'active'"`
 	CategoryID		uint			`json:"category_id"`
 	Category		Category		`json:"category" gorm:"foreignKey:CategoryID;constraint:OnDelete:CASCADE"`
-	CreateadAt		time.Time		`json:"created_at"`
+	CreatedAt		time.Time		`json:"created_at"`
 	UpdatedAt		time.Time		`json:"updated_at"`
 }
