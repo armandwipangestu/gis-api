@@ -30,6 +30,7 @@ Thumbs.db
 # Environment files
 /.env*
 !.env.example
+!.env.example.mysql
 
 # Cache
 *.out
@@ -37,3 +38,6 @@ Thumbs.db
 
 # Assets
 /public/
+
+# Docker artifacts
+/docker-data/
