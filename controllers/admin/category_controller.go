@@ -306,3 +306,19 @@ func DeleteCategory(c *gin.Context) {
 		Message: "Category deleted successfully",
 	})
 }
+
+// Get all category
+func FindAllCategories(c *gin.Context) {
+	// Initialize slice to accomodate data categories
+	var categories []models.Category
+
+	// Get data category from database
+	database.DB.Find(&categories)
+
+	// Send success response with data category
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Lists Data Categories",
+		Data:	 categories,
+	})
+}
