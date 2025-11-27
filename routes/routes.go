@@ -46,6 +46,7 @@ func SetupRouter() *gin.Engine {
 		protected.POST("/users", middlewares.Permission("users-create"), adminController.CreateUser)
 		protected.GET("/users/:id", middlewares.Permission("users-show"), adminController.FindUserById)
 		protected.PUT("/users/:id", middlewares.Permission("users-update"), adminController.UpdateUser)
+		protected.DELETE("/users/:id", middlewares.Permission("users-delete"), adminController.DeleteUser)
 	}
 
 	return router
