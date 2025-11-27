@@ -127,3 +127,49 @@ func CreateUser(c *gin.Context) {
 		},
 	})
 }
+
+func FindUserById(c *gin.Context) {
+	// Get ID user from parameter url
+	id := c.Param("id")
+
+	// Initialize user
+	var user models.User
+
+	// Find user based on id and preload relationship Roles
+	if err := database.DB.Preload("Roles").First(&user, id).Error; err != nil {
+		// If user not found, send response 404
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "User not found",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Convert roles from model to struct RoleResponse
+	var roleResponses []structs.RoleResponse
+	for _, role := range user.Roles{
+		roleResponses = append(roleResponses, structs.RoleResponse{
+			Id: 		role.Id,
+			Name:		role.Name,
+			CreatedAt: 	role.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: 	role.UpdatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+
+	// Send response success with UserResponse
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "User Found",
+		Data:	structs.UserResponse{
+			Id:			user.Id,
+			Name:		user.Name,
+			Username:	user.Username,
+			Email:		user.Email,
+			Roles:		roleResponses,
+			CreatedAt: 	user.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: 	user.UpdatedAt.Format("2006-01-02 15:04:05"),
+		},
+	})
+}
