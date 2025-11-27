@@ -74,7 +74,7 @@ func CreateCategory(c *gin.Context) {
 	// Upload file using helper
 	uploadResult := helpers.UploadFile(c, helpers.UploadConfig{
 		File:			file,
-		AllowedTypes: 	[]string{".jpg", "jpeg", ".png", ".gif"},
+		AllowedTypes: 	[]string{".jpg", ".jpeg", ".png", ".gif"},
 		MaxSize: 		10 << 20, // Maximum size is 10MB
 		DestinationDir: "public/uploads/categories",
 	})
