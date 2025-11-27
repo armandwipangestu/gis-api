@@ -203,3 +203,50 @@ func UpdateRole(c *gin.Context) {
 		Data:	 role,
 	})
 }
+
+func DeleteRole(c *gin.Context) {
+	// Get ID from parameter
+	id := c.Param("id")
+
+	// Initialize variable
+	var role models.Role
+
+	// Get data role
+	if err := database.DB.First(&role, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Role not found",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Delete all relationship role<->permission at pivot table
+	if err := database.DB.Model(&role).Association("Permissions").Clear(); err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to detach role from permissions",
+			Errors:  helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Delete role
+	if err := database.DB.Delete(&role).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to delete role",
+			Errors:  helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Send response
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Role deleted successfully",
+	})
+}
