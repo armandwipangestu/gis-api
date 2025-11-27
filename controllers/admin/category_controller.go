@@ -41,3 +41,86 @@ func FindCategories(c *gin.Context) {
 	// Send response with pagination structure
 	helpers.PaginateResponse(c, categories, total, page, limit, baseUrl, search, "List Data Categories")
 }
+
+// Add new category
+func CreateCategory(c *gin.Context) {
+	var req structs.CategoryCreateRequest
+
+	// Input validation
+	if err := c.ShouldBind(&req); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Errors",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Get file image from form
+	file, err := c.FormFile("image")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Errors",
+			Errors:	 map[string]string{"Image": "Image is required"},
+		})
+
+		return
+	}
+
+	// Upload file using helper
+	uploadResult := helpers.UploadFile(c, helpers.UploadConfig{
+		File:			file,
+		AllowedTypes: 	[]string{".jpg", "jpeg", ".png", ".gif"},
+		MaxSize: 		10 << 20, // Maximum size is 10MB
+		DestinationDir: "public/uploads/categories",
+	})
+	if uploadResult.Response != nil {
+		c.JSON(http.StatusBadRequest, uploadResult.Response)
+		return
+	}
+
+	// Create slug based on category name
+	slug := helpers.Slugify(req.Name)
+
+	// Check if slug is used or not
+	var existing models.Category
+	if err := database.DB.Where("slug = ?", slug).First(&existing).Error; err == nil {
+		c.JSON(http.StatusUnprocessableEntity, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Errors",
+			Errors:	 map[string]string{
+				"slug": "Slug already exists",
+			},
+		})
+
+		return
+	}
+
+	// Create object category (based on new field model)
+	category := models.Category{
+		Name:			req.Name,
+		Slug:			slug,
+		Image:			uploadResult.FileName,
+		Color:			req.Color,
+		Description: 	req.Description,
+	}
+
+	// Save category
+	if err := database.DB.Create(&category).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to create category",
+		})
+
+		return
+	}
+
+	// Send success response
+	c.JSON(http.StatusCreated, structs.SuccessResponse{
+		Success: true,
+		Message: "Category created successfully",
+		Data:	 category,
+	})
+}
