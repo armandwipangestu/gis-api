@@ -3,6 +3,7 @@ package routes
 import (
 	adminController "armandwipangestu/gis-api/controllers/admin"
 	authController "armandwipangestu/gis-api/controllers/auth"
+	publicController "armandwipangestu/gis-api/controllers/public"
 	"armandwipangestu/gis-api/middlewares"
 
 	"github.com/gin-gonic/gin"
@@ -66,6 +67,13 @@ func SetupRouter() *gin.Engine {
 		// Setting routes
 		protected.GET("/settings", middlewares.Permission("settings-show"), adminController.GetSetting)
 		protected.PUT("/settings", middlewares.Permission("settings-update"), adminController.UpdateSetting)
+	}
+
+	// Public routes
+	public := router.Group("/api/public")
+	{
+		// Category routes
+		public.GET("/categories", publicController.PublicCategoriesWithMaps)
 	}
 
 	return router
