@@ -71,3 +71,59 @@ func FindUsers(c *gin.Context) {
 	// Send response with pagination structure
 	helpers.PaginateResponse(c, usersResponse, total, page, limit, baseUrl, search, "List Data Users")
 }
+
+func CreateUser(c *gin.Context) {
+	// Struct user request
+	var req = structs.UserCreateRequest{}
+
+	// Bind JSON request to struct UserCreateRequest + validation
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, structs.ErrorResponse{
+			Success: false,
+			Message: "Validation Errors",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Get list role based on role_ids (if passing)
+	var roles []models.Role
+	if len(req.RoleIDs) > 0 {
+		database.DB.Where("id IN ?", req.RoleIDs).Find(&roles)
+	}
+
+	// Initialize new user
+	user := models.User{
+		Name:		req.Name,
+		Username:	req.Username,
+		Email:		req.Email,
+		Password:	helpers.HashPassword(req.Password),
+		Roles:		roles,
+	}
+
+	// Save user to database
+	if err := database.DB.Create(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to create user",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Send response success (mapping to UserResponse so that consistent)
+	c.JSON(http.StatusCreated, structs.SuccessResponse{
+		Success: true,
+		Message: "User created successfully",
+		Data: 	 structs.UserResponse{
+			Id:			user.Id,
+			Name:		user.Name,
+			Username: 	user.Username,
+			Email:		user.Email,
+			CreatedAt: 	user.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: 	user.UpdatedAt.Format("2006-01-02 15:04:05"),
+		},
+	})
+}

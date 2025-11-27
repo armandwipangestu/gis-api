@@ -1,0 +1,30 @@
+meta {
+  name: Create User
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://{{host}}:{{port}}/api/admin/users
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+body:json {
+  {
+    "name": "Foo Bar",
+    "username": "foobar",
+    "email": "foobar@example.internal",
+    "password": "fizzbuzz",
+    "role_ids": [2]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
