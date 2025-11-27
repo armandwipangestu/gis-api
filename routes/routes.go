@@ -65,6 +65,7 @@ func SetupRouter() *gin.Engine {
 
 		// Setting routes
 		protected.GET("/settings", middlewares.Permission("settings-show"), adminController.GetSetting)
+		protected.PUT("/settings", middlewares.Permission("settings-update"), adminController.UpdateSetting)
 	}
 
 	return router

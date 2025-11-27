@@ -1,0 +1,32 @@
+meta {
+  name: Update Settings
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://{{host}}:{{port}}/api/admin/settings
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+body:json {
+  {
+    "title": "GIS Desa — Updated",
+    "description": "Eksplorasi Desa secara interaktif melalui peta GIS.",
+    "map_center_lat": "-7.59148",
+    "map_center_lng": "112.26002",
+    "map_zoom": 14,
+    "village_boundary": "{\"type\":\"Polygon\",\"coordinates\":[[[112.266862,-7.588581],[112.266691,-7.590388],[112.266262,-7.59443],[112.263343,-7.595833],[112.260468,-7.597833],[112.253087,-7.596493],[112.246628,-7.592515],[112.249031,-7.586028],[112.258365,-7.585071],[112.262442,-7.585773],[112.266304,-7.586879],[112.266862,-7.588581]]]}"
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
