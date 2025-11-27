@@ -12,6 +12,6 @@ type Category struct {
 	Color			string		`json:"color"`
 	Description		string		`json:"description" gorm:"type:text"`
 	Maps			[]Map		`json:"maps" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	CreateadAt		time.Time	`json:"created_at"`
+	CreatedAt		time.Time	`json:"created_at"`
 	UpdatedAt		time.Time	`json:"updated_at"`
 }
