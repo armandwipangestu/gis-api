@@ -60,6 +60,7 @@ func SetupRouter() *gin.Engine {
 		protected.GET("/maps", middlewares.Permission("maps-index"), adminController.FindMaps)
 		protected.POST("/maps", middlewares.Permission("maps-create"), adminController.CreateMap)
 		protected.GET("/maps/:id", middlewares.Permission("maps-show"), adminController.FindMapById)
+		protected.PUT("/maps/:id", middlewares.Permission("maps-update"), adminController.UpdateMap)
 	}
 
 	return router
