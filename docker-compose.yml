@@ -26,5 +26,7 @@ services:
       options:
         max-size: "500M"
         max-file: "3"
+    volumes:
+      - ./docker-data/gis-api/public:/app/public
     depends_on:
       - gis-db
