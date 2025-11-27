@@ -15,7 +15,8 @@ services:
       - ./docker-data/mariadb:/var/lib/mysql
 
   gis-api:
-    build: .
+    # build: .
+    image: ghcr.io/armandwipangestu/gis-api:1.1.1
     container_name: gis-api
     restart: always
     env_file: .env
