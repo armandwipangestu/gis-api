@@ -88,5 +88,8 @@ func SetupRouter() *gin.Engine {
 		public.GET("/settings", publicController.GetSetting)
 	}
 
+	// Serve static files from folder /public/uploads
+	router.Static("/uploads", "./public/uploads")
+
 	return router
 }
