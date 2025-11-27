@@ -1,0 +1,20 @@
+meta {
+  name: Get Settings
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://{{host}}:{{port}}/api/admin/settings
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

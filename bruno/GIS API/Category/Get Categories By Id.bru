@@ -1,0 +1,20 @@
+meta {
+  name: Get Categories By Id
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://{{host}}:{{port}}/api/admin/categories/4
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

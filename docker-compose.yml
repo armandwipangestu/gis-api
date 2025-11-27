@@ -1,0 +1,32 @@
+services:
+  gis-db:
+    image: mariadb:12.0.2-noble
+    container_name: gis-db
+    restart: always
+    env_file: .env.mysql
+    ports:
+      - "3307:3306"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500M"
+        max-file: "3"
+    volumes:
+      - ./docker-data/mariadb:/var/lib/mysql
+
+  gis-api:
+    build: .
+    container_name: gis-api
+    restart: always
+    env_file: .env
+    ports:
+      - "3000:3000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500M"
+        max-file: "3"
+    volumes:
+      - ./docker-data/gis-api/public:/app/public
+    depends_on:
+      - gis-db

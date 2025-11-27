@@ -1,21 +1,25 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"armandwipangestu/gis-api/config"
+	"armandwipangestu/gis-api/database"
+	"armandwipangestu/gis-api/database/seeders"
+	"armandwipangestu/gis-api/routes"
 )
 
 func main() {
-	// Initialize Gin
-	router := gin.Default()
+	// Load environment variables
+	config.LoadEnv()
 
-	// Create route with method GET on root or `/` endpoint
-	router.GET("/", func(c *gin.Context) {
-		// Return response JSON
-		c.JSON(200, gin.H{
-			"message": "Hello World!",
-		})
-	})
+	// Initialize database (connection, migration stuff)
+	database.InitDB()
 
-	// Serve app with port 3000
-	router.Run(":3000")
+	// Running the seeders
+	seeders.Seed()
+
+	// Setup router
+	r := routes.SetupRouter()
+
+	// Serve app
+	r.Run(":" + config.GetEnv("APP_PORT", "3000"))
 }

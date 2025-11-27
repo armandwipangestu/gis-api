@@ -1,0 +1,20 @@
+meta {
+  name: Delete Permission By Id
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://{{host}}:{{port}}/api/admin/permissions/35
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

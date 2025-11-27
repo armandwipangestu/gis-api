@@ -1,0 +1,30 @@
+meta {
+  name: Update Users By Id
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://{{host}}:{{port}}/api/admin/users/3
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+body:json {
+  {
+    "name": "Foo Bar - Edit",
+    "username": "foobar",
+    "email": "foobar@example.internal",
+    "password": "fizzbuzz",
+    "role_ids": [2]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,35 @@
+meta {
+  name: Login
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://{{host}}:{{port}}/api/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "{{username}}",
+    "password": "{{password}}"
+  }
+}
+
+script:post-response {
+  const body = res.getBody(); // Parse JSON
+  const token = body?.data?.token;
+  
+  if (token) {
+    bru.setEnvVar("access-token", token);
+    console.log("access-token updated: ", token)
+  } else {
+    console.log("token not found in response: ", body)
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
