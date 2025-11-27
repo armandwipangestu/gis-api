@@ -250,3 +250,18 @@ func DeleteRole(c *gin.Context) {
 		Message: "Role deleted successfully",
 	})
 }
+
+func FindAllRoles(c *gin.Context) {
+	// Initialize slice to accomodate data roles
+	var roles []models.Role
+
+	// Get data roles from database
+	database.DB.Find(&roles)
+
+	// Send response success with data user
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Lists Data Roles",
+		Data:	 roles,
+	})
+}
