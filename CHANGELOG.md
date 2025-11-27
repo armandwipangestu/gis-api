@@ -1,3 +1,10 @@
+## [1.1.2-rc.1](https://github.com/armandwipangestu/gis-api/compare/v1.1.1...v1.1.2-rc.1) (2025-11-27)
+
+
+### Bug Fixes
+
+* change image gis-api docker compose to ghcr.io ([6d6fd5d](https://github.com/armandwipangestu/gis-api/commit/6d6fd5d16b771e5b8dca843aadcd2b228ceeabdd))
+
 ## [1.1.1-rc.2](https://github.com/armandwipangestu/gis-api/compare/v1.1.1-rc.1...v1.1.1-rc.2) (2025-11-27)
 
 
