@@ -74,6 +74,9 @@ func SetupRouter() *gin.Engine {
 	{
 		// Category routes
 		public.GET("/categories", publicController.PublicCategoriesWithMaps)
+
+		// Setting routes
+		public.GET("/settings", publicController.GetSetting)
 	}
 
 	return router
