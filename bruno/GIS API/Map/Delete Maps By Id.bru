@@ -1,0 +1,20 @@
+meta {
+  name: Delete Maps By Id
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://{{host}}:{{port}}/api/admin/maps/3
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{access-token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

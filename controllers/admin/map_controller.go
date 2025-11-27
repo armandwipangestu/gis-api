@@ -286,3 +286,60 @@ func UpdateMap(c *gin.Context) {
 		},
 	})
 }
+
+// Delete map based on id
+func DeleteMap(c *gin.Context) {
+	// Get parameter id
+	id := c.Param("id")
+
+	// Initialize variable
+	var mp models.Map
+
+	// Check if data map found or not
+	if err := database.DB.First(&mp, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Map not found",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Save path image to delete
+	imagePath := ""
+	if mp.Image != "" {
+		imagePath = filepath.Join("public", "uploads", "maps", mp.Image)
+	}
+
+	// Delete data map
+	if err := database.DB.Delete(&mp).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to delete map",
+			Errors:  helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Delete file image if exist
+	if imagePath != "" {
+		if err := os.Remove(imagePath); err != nil && !os.IsNotExist(err) {
+			// Failed to delete image, but data map still considered successfully deleted
+			c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+				Success: false,
+				Message: "Map deleted but failed to remove image",
+				Errors:	 map[string]string{"image": "Failed to remove image file: " + err.Error()},
+			})
+
+			return
+		}
+	}
+
+	// Response success
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Map deleted successfully",
+	})
+}
