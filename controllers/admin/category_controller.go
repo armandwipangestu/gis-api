@@ -249,3 +249,60 @@ func UpdateCategory(c *gin.Context) {
 		Data:	 category,
 	})
 }
+
+// Remove category based on id
+func DeleteCategory(c *gin.Context) {
+	// Get parameter id
+	id := c.Param("id")
+
+	// Initialize category
+	var category models.Category
+
+	// Check if data category found
+	if err := database.DB.First(&category, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, structs.ErrorResponse{
+			Success: false,
+			Message: "Category not found",
+			Errors:  helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Save path image to delete
+	imagePath := ""
+	if category.Image != "" {
+		imagePath = filepath.Join("public", "uploads", "categories", category.Image)
+	}
+
+	// Delete data category
+	if err := database.DB.Delete(&category).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+			Success: false,
+			Message: "Failed to delete category",
+			Errors:	 helpers.TranslateErrorMessage(err),
+		})
+
+		return
+	}
+
+	// Remove file image if exist
+	if imagePath != "" {
+		if err := os.Remove(imagePath); err != nil && !os.IsNotExist(err) {
+			// Failed to delete image, but delete category still considered successfully deleted
+			c.JSON(http.StatusInternalServerError, structs.ErrorResponse{
+				Success: false,
+				Message: "Category deleted but failed to remove image",
+				Errors:	 map[string]string{"image": "Failed to remove image file: " + err.Error()},
+			})
+
+			return
+		}
+	}
+
+	// Response success
+	c.JSON(http.StatusOK, structs.SuccessResponse{
+		Success: true,
+		Message: "Category deleted successfully",
+	})
+}

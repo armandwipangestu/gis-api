@@ -53,6 +53,7 @@ func SetupRouter() *gin.Engine {
 		protected.POST("/categories", middlewares.Permission("categories-create"), adminController.CreateCategory)
 		protected.GET("/categories/:id", middlewares.Permission("categories-show"), adminController.FindCategoryById)
 		protected.PUT("/categories/:id", middlewares.Permission("categories-update"), adminController.UpdateCategory)
+		protected.DELETE("/categories/:id", middlewares.Permission("categories-delete"), adminController.DeleteCategory)
 	}
 
 	return router

@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: http://{{host}}:{{port}}/api/admin/categories/3
+  url: http://{{host}}:{{port}}/api/admin/categories/4
   body: multipartForm
   auth: inherit
 }
@@ -16,9 +16,9 @@ headers {
 
 body:multipart-form {
   image: @file(/media/devnull/DATA WINDOWS/Pictures/Thumbnail/WordPress/Demo Platform LMS “Skiloka” dengan Integrasi Payment Gateway Midtrans.png) @contentType(File)
-  name: Tests - Edit @contentType(Text)
+  name: Pendidikan - Edit @contentType(Text)
   color: #000000 @contentType(Text)
-  description: Tests @contentType(Text)
+  description: Pendidikan @contentType(Text)
 }
 
 body:file {
