@@ -1,3 +1,10 @@
+# [1.2.0-rc.2](https://github.com/armandwipangestu/gis-api/compare/v1.2.0-rc.1...v1.2.0-rc.2) (2025-12-09)
+
+
+### Bug Fixes
+
+* **ci:** add permissions and environment ([eefeb89](https://github.com/armandwipangestu/gis-api/commit/eefeb898b4a2ebaf2484c35566f8fa178949aada))
+
 # [1.2.0-rc.1](https://github.com/armandwipangestu/gis-api/compare/v1.1.2-rc.1...v1.2.0-rc.1) (2025-12-09)
 
 
