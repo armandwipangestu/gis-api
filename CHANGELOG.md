@@ -1,3 +1,15 @@
+# [1.2.0-rc.1](https://github.com/armandwipangestu/gis-api/compare/v1.1.2-rc.1...v1.2.0-rc.1) (2025-12-09)
+
+
+### Bug Fixes
+
+* update bruno configuration ([2430592](https://github.com/armandwipangestu/gis-api/commit/2430592a8f8f3c464523a56fd99325f04b388c67))
+
+
+### Features
+
+* **ci:** update ci & semantic release configuration ([e992bb5](https://github.com/armandwipangestu/gis-api/commit/e992bb5174f29a28bc0a68263490e3234b6474f2))
+
 ## [1.1.2-rc.1](https://github.com/armandwipangestu/gis-api/compare/v1.1.1...v1.1.2-rc.1) (2025-11-27)
 
 
