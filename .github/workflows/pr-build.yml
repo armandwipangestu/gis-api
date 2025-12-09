@@ -1,0 +1,64 @@
+name: PR Build & Test
+
+on:
+    pull_request:
+        branches:
+            - staging
+            - main
+        types:
+            - opened
+            - synchronize
+            - reopened
+
+jobs:
+    build-and-test:
+        name: Build and Test
+        runs-on: ubuntu-latest
+        environment: ${{ github.base_ref }}
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Go
+              uses: actions/setup-go@v5
+              with:
+                  go-version: "1.25"
+
+            - name: Cache Go modules
+              uses: actions/cache@v3
+              with:
+                  path: |
+                      ~/go/pkg/mod
+                      ~/.cache/go-build
+                  key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+
+            - name: Install dependencies
+              run: go mod download
+
+            # - name: Run tests
+            #   run: go test ./... -v
+
+            - name: Build backend (for validation)
+              run: go build -o app .
+
+            - name: Setup Node for semantic-release
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "22"
+
+            - name: Install semantic-release globally
+              run: |
+                  npm install -g \
+                    semantic-release \
+                    @semantic-release/changelog \
+                    @semantic-release/git \
+                    @semantic-release/exec \
+                    @semantic-release/github \
+                    conventional-changelog-conventionalcommits
+
+            - name: Dry run semantic-release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  DEBUG: "semantic-release:*"
+              run: npx semantic-release --dry-run --branches=${{ github.head_ref }}

@@ -52,8 +52,22 @@ plugins:
         message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
 
     - - "@semantic-release/github"
-      - successComment: false
-        labels: false
+      - successComment: |
+            🎉 This PR is included in version **${nextRelease.version}** 🎉
+
+            🔗 **View Release:** [${nextRelease.gitTag}](https://github.com/armandwipangestu/gis-api/releases/tag/${nextRelease.gitTag})
+
+            🤖 *"Kill all humans"* - Your [semantic-release](https://github.com/semantic-release/semantic-release) bot 🚀
+        failComment: |
+            ❌ **Release Failed**
+
+            Semantic-release failed to create release for this commit.
+
+            **Error:** ${error.message}
+
+            Please check the log CI for more information and fix the problem.
+        labels:
+            - released
 
     - - "@semantic-release/exec"
       - successCmd: 'echo "${nextRelease.version}" > version.txt'
