@@ -105,6 +105,11 @@ jobs:
     needs:
       - build-docker-sha
       - release-and-tagging-version
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    environment: ${{ github.ref_name }}
 
     steps:
       - name: Checkout repository
