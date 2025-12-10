@@ -17,6 +17,7 @@
 
 -   [Features](#features)
 -   [Requirements](#requirements)
+-   [Project Structure](#project-structure)
 -   [Running the Application](#running-the-application)
     -   [Development Mode](#development-mode)
     -   [Compile Manual (Build Binary)](#compile-manual-build-binary)
@@ -37,6 +38,130 @@
 -   MariaDB 12.0.2
 -   Git
 -   Docker & Docker Compose (optional)
+
+## Project Structure
+
+```bash
+. gis-api
+├── bruno
+│  └── 'GIS API'
+│     ├── Auth
+│     │  ├── folder.bru
+│     │  └── Login.bru
+│     ├── bruno.json
+│     ├── Category
+│     │  ├── 'Create Categories.bru'
+│     │  ├── 'Delete Categories By Id.bru'
+│     │  ├── folder.bru
+│     │  ├── 'Get All Categories.bru'
+│     │  ├── 'Get Categories.bru'
+│     │  ├── 'Get Categories By Id.bru'
+│     │  └── 'Update Categories By Id.bru'
+│     ├── Dashboard
+│     │  ├── folder.bru
+│     │  └── 'Get Dashboard.bru'
+│     ├── environments
+│     │  └── development.bru
+│     ├── Map
+│     │  ├── 'Create Maps.bru'
+│     │  ├── 'Delete Maps By Id.bru'
+│     │  ├── folder.bru
+│     │  ├── 'Get Maps.bru'
+│     │  ├── 'Get Maps By Id.bru'
+│     │  └── 'Update Maps By Id.bru'
+│     ├── Permission
+│     │  ├── 'Create Permission.bru'
+│     │  ├── 'Delete Permission By Id.bru'
+│     │  ├── folder.bru
+│     │  ├── 'Get All Permissions.bru'
+│     │  ├── 'Get Permission By Id.bru'
+│     │  ├── 'Get Permissions.bru'
+│     │  └── 'Update Permission By Id.bru'
+│     ├── Public
+│     │  ├── folder.bru
+│     │  ├── 'Get Categories.bru'
+│     │  └── 'Get Settings.bru'
+│     ├── Role
+│     │  ├── 'Create Role.bru'
+│     │  ├── 'Delete Roles By Id.bru'
+│     │  ├── folder.bru
+│     │  ├── 'Get All Roles.bru'
+│     │  ├── 'Get Roles.bru'
+│     │  ├── 'Get Roles By Id.bru'
+│     │  └── 'Update Roles By Id.bru'
+│     ├── Setting
+│     │  ├── folder.bru
+│     │  ├── 'Get Settings.bru'
+│     │  └── 'Update Settings.bru'
+│     └── User
+│        ├── 'Create User.bru'
+│        ├── 'Delete Users By Id.bru'
+│        ├── folder.bru
+│        ├── 'Get Users.bru'
+│        ├── 'Get Users By Id.bru'
+│        └── 'Update Users By Id.bru'
+├── CHANGELOG.md
+├── config
+│  └── config.go
+├── controllers
+│  ├── admin
+│  │  ├── category_controller.go
+│  │  ├── dashboard_controller.go
+│  │  ├── map_controller.go
+│  │  ├── permission_controller.go
+│  │  ├── role_controller.go
+│  │  ├── setting_controller.go
+│  │  └── user_controller.go
+│  ├── auth
+│  │  └── login_controller.go
+│  └── public
+│     ├── category_controller.go
+│     └── setting_controller.go
+├── database
+│  ├── database.go
+│  └── seeders
+│     ├── permissions.go
+│     ├── roles.go
+│     ├── seed.go
+│     ├── setting.go
+│     └── users.go
+├── docker-compose.yml
+├── Dockerfile
+├── go.mod
+├── go.sum
+├── helpers
+│  ├── hash.go
+│  ├── jwt.go
+│  ├── pagination.go
+│  ├── permission.go
+│  ├── slug.go
+│  ├── upload.go
+│  └── validator.go
+├── main.go
+├── middlewares
+│  ├── auth_middleware.go
+│  └── permission_middleware.go
+├── models
+│  ├── category.go
+│  ├── map.go
+│  ├── permission.go
+│  ├── role.go
+│  ├── setting.go
+│  └── user.go
+├── README.md
+├── routes
+│  └── routes.go
+└── structs
+   ├── category.go
+   ├── dashboard.go
+   ├── error_response.go
+   ├── map.go
+   ├── permission.go
+   ├── role.go
+   ├── setting.go
+   ├── success_response.go
+   └── user.go
+```
 
 ## Running the Application
 
