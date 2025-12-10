@@ -1,3 +1,11 @@
+## [1.2.1-rc.1](https://github.com/armandwipangestu/gis-api/compare/v1.2.0...v1.2.1-rc.1) (2025-12-10)
+
+
+### Bug Fixes
+
+* **docs:** add project structure ([84112b4](https://github.com/armandwipangestu/gis-api/commit/84112b409f8858ae6e5aead7470db46c78b1fc52))
+* update bruno configuration ([b0c30cd](https://github.com/armandwipangestu/gis-api/commit/b0c30cdf260e90e877fe693b047053d950380f1b))
+
 # [1.2.0-rc.3](https://github.com/armandwipangestu/gis-api/compare/v1.2.0-rc.2...v1.2.0-rc.3) (2025-12-10)
 
 
